@@ -10,7 +10,7 @@ from pandas import read_csv
 from app.alpha import API_KEY
 
 def fetch_exchange_data(fromCurrency,toCurrency):
-    request_url = f"https://www.alphavantage.co/query?function=FX_INTRADAY&from_symbol={fromCurrency}&to_symbol={toCurrency}&interval=60min&outputsize=full&apikey={API_KEY}&datatype=csv"
+    request_url = f"https://www.alphavantage.co/query?function=FX_WEEKLY&from_symbol={fromCurrency}&to_symbol={toCurrency}&interval=60min&outputsize=full&apikey={API_KEY}&datatype=csv"
     print(request_url)
     df = read_csv(request_url)
     return df
