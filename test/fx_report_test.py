@@ -1,4 +1,4 @@
-from app.fxintraday import fetch_exchange_data
+from app.fx_report import fetch_exchange_data
 from pandas import DataFrame
 
 def test_data_fetching():
