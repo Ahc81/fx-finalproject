@@ -2,7 +2,7 @@ from app.fx_report import fetch_exchange_data
 from pandas import DataFrame
 
 def test_data_fetching():
-    result = fetch_exchange_data("EUR","USD")
+    result = fetch_exchange_data("FX_DAILY","EUR","USD")
     assert isinstance(result, DataFrame)
 
     assert "timestamp" in result.columns
