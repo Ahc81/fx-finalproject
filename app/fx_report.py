@@ -16,7 +16,14 @@ def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
     df = read_csv(request_url)
     return df
 
-
+def appreciate_or_depreciate(latestClose,firstClose,fromCurrency,toCurrency,firstDate):
+    appreciationAmount = latestClose/firstClose -1
+    appreciationAmountRounded = round(appreciationAmount,2)
+    appreciationAmountAsPercent = str(appreciationAmountRounded*100)+"%" 
+    if appreciationAmount > 0:
+        print("The ", fromCurrency, " has depreciated against the ",toCurrency, " by", appreciationAmountAsPercent, "since ", firstDate, ".")
+    elif appreciationAmount<0:
+        print("The ", fromCurrency, " has appreciated against the ",toCurrency, " by", appreciationAmountAsPercent,"since ", firstDate, ".")
 
 if __name__ == "__main__":
     print("FX REPORT...")
@@ -39,11 +46,19 @@ if __name__ == "__main__":
     print(df.head())
 
     latest = df.iloc[0]
+    first = df.iloc[-1]
 
     print("LATEST EXCHANGE RATE FROM",fromCurrency," TO ",toCurrency,":",latest["close"],"as of", latest["timestamp"])
     
+    latestClose = latest["close"]
+    print(latestClose)
+    firstClose = first["close"]
+    print(firstClose)
+    firstDate = first["timestamp"]
+    print(firstDate)
+    appreciate_or_depreciate(latestClose, firstClose, fromCurrency,toCurrency,firstDate)
     dates = df["timestamp"]
-  
+    
     rates = df["close"]
     chartName = timeFrameAsString + " Exchange Rate"
     if timeFrameAsString == "DAILY":
