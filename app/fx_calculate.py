@@ -15,7 +15,7 @@ def calculate_new_currency(fromCurrencyAmount,latestClose):
 
 #Begin main body
 if __name__ == "__main__":
-    print("FX REPORT...")
+
 #inputs the currency you want to convert from
     fromCurrency = input("Please input a currency symbol you want to exchange from (default: 'USD')") or "USD"
     print("Exchange from: ",fromCurrency)
