@@ -10,7 +10,7 @@ def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
     df = read_csv(request_url)
     return df #stores data as dataframe
 
-def calculate_new_currency(fromCurrencyAmount,lastestClose):
+def calculate_new_currency(fromCurrencyAmount,latestClose):
     newCurrencyAmount = fromCurrencyAmount * latestClose
     return newCurrencyAmount
 
