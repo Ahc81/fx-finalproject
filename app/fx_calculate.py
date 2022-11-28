@@ -10,8 +10,8 @@ def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
     df = read_csv(request_url)
     return df #stores data as dataframe
 
-def calculate_new_currency(fromCurrencyAmount,currentExchangeRate):
-    newCurrencyAmount = fromCurrencyAmount * currentExchangeRate
+def calculate_new_currency(fromCurrencyAmount,lastestClose):
+    newCurrencyAmount = fromCurrencyAmount * latestClose
     return newCurrencyAmount
 
 #Begin main body
@@ -24,23 +24,19 @@ if __name__ == "__main__":
     toCurrency = input("Please input a currency symbol you want to exchange to (default: 'EUR')") or "EUR"
     print ("Exchange to :", toCurrency)
 #Input what type of time frame you want
-    timeFrame = input("Please input your selected timing of your exchange data (ie. Intraday, Daily, Weekly, Monthly: ").upper()
-    timeFrameAsString = str(timeFrame)
+   
+    timeFrameAsString = str("INTRADAY")
     combinedTimeFrame = str("FX_") + timeFrameAsString
     print(str(combinedTimeFrame))
     #data fetching function
     df = fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency)
-    print(df)
     
-    print(df.columns)
-    print(df.head())
-
     latest = df.iloc[0]
-    first = df.iloc[-1]
+    
     #sorting through the dataframe
     print("LATEST EXCHANGE RATE FROM",fromCurrency," TO ",toCurrency,":",latest["close"],"as of", latest["timestamp"])
     
-    latestClose = latest["close"]
+    latestClose = eval(latest["close"])
     fromCurrencyAmount = eval(input("Input how many ", fromCurrency," you would like converted: " ))
     newCurrencyAmount = calculate_new_currency(fromCurrencyAmount, latestClose)
     print("You can convert to ",newCurrencyAmount," ",fromCurrency,".")
