@@ -6,7 +6,6 @@ from app.alpha import API_KEY
 def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
 #API key from app.alpha and from .env before that
     request_url = f"https://www.alphavantage.co/query?function={combinedTimeFrame}&from_symbol={fromCurrency}&to_symbol={toCurrency}&interval=60min&outputsize=full&apikey={API_KEY}&datatype=csv"
-    print(request_url)
     df = read_csv(request_url)
     return df #stores data as dataframe
 
@@ -36,7 +35,11 @@ if __name__ == "__main__":
     #sorting through the dataframe
     print("LATEST EXCHANGE RATE FROM",fromCurrency," TO ",toCurrency,":",latest["close"],"as of", latest["timestamp"])
     
-    latestClose = eval(latest["close"])
-    fromCurrencyAmount = eval(input("Input how many ", fromCurrency," you would like converted: " ))
-    newCurrencyAmount = calculate_new_currency(fromCurrencyAmount, latestClose)
-    print("You can convert to ",newCurrencyAmount," ",fromCurrency,".")
+    
+    fromCurrencyAmount = eval(input("Input how many "+ fromCurrency+" you would like converted: " ))
+    latestClose = latest["close"]
+    latestCloseAsString = str(latestClose)
+    latestCloseAsNumber = eval(latestCloseAsString)
+    newCurrencyAmount = calculate_new_currency(fromCurrencyAmount, latestCloseAsNumber)
+    roundedNewCurrencyAmount = round(newCurrencyAmount,2)
+    print("You can convert to " + str(roundedNewCurrencyAmount) + " " + toCurrency +".")
