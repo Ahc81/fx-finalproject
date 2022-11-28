@@ -28,3 +28,15 @@ ALPHAVANTAGE_API_KEY
 
 Then create a .gitignore file of the python flavor to help hide the .env file
 
+```sh
+.env
+```
+
+##Run the code
+
+
+```sh
+python -m app.fx_report
+```
+
+
