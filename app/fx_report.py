@@ -68,7 +68,7 @@ if __name__ == "__main__":
     elif timeFrameAsString == "MONTHLY":
         xAxis = "Months"
 #chart or no chart
-    chart = input("Would you like a chart to be made? (Y/N) ").Upper()
+    chart = input("Would you like a chart to be made? (Y/N) ")
     if chart == "Y":
         fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         fig.show()
