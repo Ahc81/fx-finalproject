@@ -32,7 +32,7 @@ def FX_dashboard():
 
         #flash("Fetched Real-time Market Data!", "success")
         return render_template("fx_dashboard.html",
-            symbol=symbol,
+            symbol=fromCurrencySymbol,
             latest_close=latest_close,
             latest_date=latest_date,
             data=data
@@ -47,7 +47,7 @@ def FX_dashboard():
 # API ROUTES
 #
 
-@stocks_routes.route("/api/stocks.json")
+@fx_report_routes.route("/api/stocks.json")
 def stocks_api():
     print("STOCKS DATA (API)...")
 
