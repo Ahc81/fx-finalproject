@@ -1,0 +1,27 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "fx_report_form" %}
+
+{% block content %}
+
+    <h2>FX Report Form</h2>
+
+    <p>Enter the currencies you would like to convert from and convert to:</p>
+
+    <form action="/fx/report" method="POST">
+
+        <label>FX From Currency Symbol:</label>
+        <input type="text" name="symbol" placeholder="USD" value="USD">
+        <br>
+
+        <label>FX To Currency Symbol:</label>
+        <input type="text" name="symbol" placeholder="EUR" value="EUR">
+        <br>
+
+        <label>Report Frequency:</label>
+        <input type="text" name="symbol" placeholder="INTRADAY" value="INTRADAY">
+        <br>
+
+        <button class="btn btn-success">Submit</button>
+    </form>
+
+{% endblock %}
