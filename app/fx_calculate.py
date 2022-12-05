@@ -10,9 +10,10 @@ def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
     return df #stores data as dataframe
 
 def calculate_new_currency(fromCurrencyAmount,latestClose):
+    fromCurrencyAsNumber = eval(fromCurrencyAmount)
     latestCloseAsString = str(latestClose)
     latestCloseAsNumber = eval(latestCloseAsString)
-    newCurrencyAmount = fromCurrencyAmount * latestCloseAsNumber
+    newCurrencyAmount = fromCurrencyAsNumber * latestCloseAsNumber
     return newCurrencyAmount
 
 #Begin main body

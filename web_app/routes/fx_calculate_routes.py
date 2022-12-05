@@ -32,14 +32,19 @@ def fx_calculate_dashboard():
         df = fetch_exchange_data(combinedTimeFrame="FX_INTRADAY",fromCurrency=fromCurrencySymbol,toCurrency=toCurrencySymbol)
         latest = df.iloc[0]
         latestClose = latest["close"]
+        print(latestClose)
+        print(fromCurrencyAmount)
+        print(toCurrencySymbol)
         newCurrencyAmount=calculate_new_currency(fromCurrencyAmount=fromCurrencyAmount, latestClose=latestClose)
 
-        #flash("Fetched Real-time Market Data!", "success")
-        return render_template("fx_dashboard.html",
+        flash("Fetched Real-time Market Data!", "success")
+        return render_template("fx_form_output.html",
             fromCurrency=fromCurrencySymbol,
+            toCurrency=toCurrencySymbol,
+        
             latestClose=latestClose,
             newCurrencyAmount=newCurrencyAmount
-        )
+            )
     except Exception as err:
         print('OOPS', err)
 

@@ -1,0 +1,31 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "fx_form_output" %}
+
+{% block content %}
+
+    <h2>FX Calculator Complete</h2>
+
+    <p>FX Calculator Outputs:</p>
+
+    <form action="/fx/formoutput" method="POST">
+
+        <p>FX From Currency Symbol: {{fromCurrency}}</p> 
+        <output fromCurrency  >
+        <br>
+
+        <p>FX To Currency Symbol: {{toCurrency}}</p> 
+        <output toCurrency >
+        <br>
+
+        <p>Exchange Rate: {{latestClose}}</p> 
+        <output latestClose >
+        <br>
+        
+        <p>New Currency Amount: {{newCurrencyAmount}}</p> 
+        <output newCurrencyAmount >
+        <br>
+
+
+    </form>
+
+{% endblock %}
