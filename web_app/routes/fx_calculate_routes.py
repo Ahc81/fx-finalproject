@@ -53,16 +53,17 @@ def fx_calculate_dashboard():
 @fx_calculate_routes.route("/api/fx.json")
 def fx_api():
     print("FX DATA (API)...")
-
+'''
     # for data supplied via GET request, url params are in request.args:
     url_params = dict(request.args)
     print("URL PARAMS:", url_params)
     symbol = url_params.get("from currency") or "USD"
 
     try:
-        df = fetch_exchange_data(symbol=symbol)
+        df = fetch_exchange_data(combinedTimeFrame="FX_INTRADAY",fromCurrency=fromCurrencySymbol,toCurrency=toCurrencySymbol)
         data = df.to_dict("records")
         return {"symbol": symbol, "data": data }
     except Exception as err:
         print('OOPS', err)
         return {"message":"Market Data Error. Please try again."}, 404
+'''
