@@ -1,45 +1,80 @@
-# this is the "web_app/routes/unemployment_routes.py" file...
+
 
 from flask import Blueprint, request, render_template, redirect, flash
 
-from app.unemployment import fetch_unemployment_data, format_pct
+from app.fx_report import fetch_exchange_data, appreciate_or_depreciate
+from plotly.express import line
+from pandas import read_csv
 
-unemployment_routes = Blueprint("unemployment_routes", __name__)
+fx_report_routes = Blueprint("fx_report_routes", __name__)
+
+@fx_report_routes.route("/fx_report/form")
+def fx_report_form():
+    return render_template("fx_report_form.html")
+
+@fx_report_routes.route("/fx_report/dashboard", methods=["GET", "POST"])
+def fx_report_dashboard():
+    print("FX Dashboard...")
 
 
-@unemployment_routes.route("/unemployment/dashboard")
-def unemployment_dashboard():
-    print("UNEMPLOYMENT DASHBOARD...")
+    if request.method == "POST":
+        # for data sent via POST request, form inputs are in request.form:
+        request_data = dict(request.form)
+        print("FORM DATA:", request_data)
+    else:
+        # for data sent via GET request, url params are in request.args
+        request_data = dict(request.args)
+        print("URL PARAMS:", request_data)
 
+    fromCurrencySymbol = request_data.get("From Currency") or "USD"
+    toCurrencySymbol = request_data.get("To Currency") or "EUR"
+    timeFrame = request_data.get("Monthly, Weekly, Daily, or Intraday") or "INTRADAY"
+    timeFrameAsString = str(timeFrame).upper()
+    combinedTimeFrame = str("FX_") + timeFrameAsString
+    if timeFrameAsString == "DAILY":
+                    xAxis = "Days"
+    elif timeFrameAsString == "INTRADAY":
+        xAxis = "Times"
+    elif timeFrameAsString == "WEEKLY":
+        xAxis = "Weeks"
+    elif timeFrameAsString == "MONTHLY":
+        xAxis = "Months"
     try:
-        data = fetch_unemployment_data()
-        latest = data[0]
-        latest_rate_pct = format_pct(float(latest["value"]))
-        latest_date = latest["date"]
+        df = fetch_exchange_data(combinedTimeFrame = combinedTimeFrame, fromCurrency = fromCurrencySymbol, toCurrency = toCurrencySymbol)
+        latest = df.iloc[0]
+        first = df.iloc[-1]
+        latestClose = latest["close"]
+        firstClose = first["close"]
+        firstDate = first["timestamp"]
+        fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
+        
 
-        #flash("Fetched Latest Unemployment Data!", "success")
-        return render_template("unemployment_dashboard.html",
-            latest_rate_pct=latest_rate_pct,
-            latest_date=latest_date,
-            data=data
+        flash("Fetched Latest Unemployment Data!", "success")
+        return render_template("fx_dashboard.html",
+            latestClose = latestClose,
+            firstClose = firstClose,
+            firstDate = firstDate,
+            chartName = timeFrameAsString + " Exchange Rate",
+            fig = fig
         )
     except Exception as err:
         print('OOPS', err)
 
-        #flash("Unemployment Data Error. Please try again!", "danger")
+        flash("FX Data Error. Please try again!", "danger")
         return redirect("/")
 
 #
 # API ROUTES
 #
 
-@unemployment_routes.route("/api/unemployment.json")
-def unemployment_api():
-    print("UNEMPLOYMENT DATA (API)...")
+@fx_report_routes.route("/api/fx_report.json")
+def fx_api():
+    print("FX DATA (API)...")
 
     try:
-        data = fetch_unemployment_data()
+        data = fetch_exchange_data()
         return data
     except Exception as err:
         print('OOPS', err)
-        return {"message":"Unemployment Data Error. Please try again."}, 404
+        return {"message":"FX Data Error. Please try again."}, 404
+        

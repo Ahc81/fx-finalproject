@@ -1,5 +1,5 @@
 {% extends "bootstrap_5_layout.html" %}
-{% set active_page = "fx_report_form" %}
+{% set active_page = "fx_report/form" %}
 
 {% block content %}
 
@@ -10,15 +10,15 @@
     <form action="/fx/report" method="POST">
 
         <label>FX From Currency Symbol:</label>
-        <input type="text" name="symbol" placeholder="USD" value="USD">
+        <input type="text" name="From Currency" placeholder="USD" value="USD">
         <br>
 
         <label>FX To Currency Symbol:</label>
-        <input type="text" name="symbol" placeholder="EUR" value="EUR">
+        <input type="text" name="To Currency" placeholder="EUR" value="EUR">
         <br>
 
         <label>Report Frequency:</label>
-        <input type="text" name="symbol" placeholder="INTRADAY" value="INTRADAY">
+        <input type="text" name="Report Frequency" placeholder="INTRADAY" value="INTRADAY">
         <br>
 
         <button class="btn btn-success">Submit</button>

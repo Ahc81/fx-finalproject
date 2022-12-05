@@ -18,9 +18,13 @@ def appreciate_or_depreciate(latestClose,firstClose,fromCurrency,toCurrency,firs
     appreciationAmountRounded = round(appreciationAmount,2)
     appreciationAmountAsPercent = str(appreciationAmountRounded*100)+"%" 
     if appreciationAmount > 0:
-        print("The ", fromCurrency, " has depreciated against the ",toCurrency, " by", appreciationAmountAsPercent, "since ", firstDate, ".")
+        result = -1
+        ("The" , fromCurrency , "has depreciated against the" , toCurrency , " by", appreciationAmountAsPercent , "since ", firstDate , ".")
     elif appreciationAmount<0:
-        print("The ", fromCurrency, " has appreciated against the ",toCurrency, " by", appreciationAmountAsPercent,"since ", firstDate, ".")
+        result = 1
+        ("The ", fromCurrency, " has appreciated against the ",toCurrency, " by", appreciationAmountAsPercent,"since ", firstDate, ".")
+
+    return result
 #Begin main body
 if __name__ == "__main__":
     print("FX REPORT...")
@@ -54,7 +58,8 @@ if __name__ == "__main__":
     firstDate = first["timestamp"]
     print(firstDate)
     #appreciation calculation
-    appreciate_or_depreciate(latestClose, firstClose, fromCurrency,toCurrency,firstDate)
+    result = appreciate_or_depreciate(latestClose, firstClose, fromCurrency,toCurrency,firstDate)
+    print(result)
     dates = df["timestamp"]
     
     rates = df["close"]
@@ -68,8 +73,8 @@ if __name__ == "__main__":
     elif timeFrameAsString == "MONTHLY":
         xAxis = "Months"
 #chart or no chart
-    chart = input("Would you like a chart to be made? (Y/N) ").Upper()
-    if chart == "Y":
+    chart = input("Would you like a chart to be made? (Y/N) ")
+    if chart == "Y" or "y" or "yes":
         fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         fig.show()
         print("Thank you for using the program.")

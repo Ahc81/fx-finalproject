@@ -9,9 +9,9 @@ fx_calculate_routes = Blueprint("fx_calculate_routes", __name__)
 @fx_calculate_routes.route("/fx_calculate/form")
 def fx_calculate_form():
     print("FX Calculator...")
-    return render_template("fx_form.html")
+    return render_template("fx_calculate_form.html")
 
-@fx_calculate_routes.route("/fx/dashboard", methods=["GET", "POST"])
+@fx_calculate_routes.route("/fx_calculate/dashboard", methods=["GET", "POST"])
 def fx_calculate_dashboard():
     print("FX Calculator Dashboard...")
 
