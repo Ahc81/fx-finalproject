@@ -54,6 +54,8 @@ def fx_report_dashboard():
 
         flash("Fetched Latest Unemployment Data!", "success")
         return render_template("fx_dashboard.html",
+            fromCurrencySymbol = fromCurrencySymbol,
+            toCurrencySymbol = toCurrencySymbol,
             latestClose = latestClose,
             firstClose = firstClose,
             firstDate = firstDate,
