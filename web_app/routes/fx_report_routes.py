@@ -46,6 +46,9 @@ def fx_report_dashboard():
         latestClose = latest["close"]
         firstClose = first["close"]
         firstDate = first["timestamp"]
+        dates =  df["timestamp"]
+        rates = df["close"]
+        chartName = timeFrameAsString + " Exchange Rate"
         fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         
 
