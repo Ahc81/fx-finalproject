@@ -72,14 +72,23 @@ def fx_report_dashboard():
 # API ROUTES
 #
 
-@fx_report_routes.route("/api/fx_report.json")
+@fx_report_routes.route("/api/fx.json")
 def fx_api():
     print("FX DATA (API)...")
 
+    # for data supplied via GET request, url params are in request.args:
+    url_params = dict(request.args)
+    print("URL PARAMS:", url_params)
+    fromCurrencySymbol = url_params.get("fromCurrencySymbol") or "USD"
+    toCurrencySymbol = url_params.get("toCurrencySymbol") or "EUR"
+    timeFrame = url_params.get("timeFrame") or "INTRADAY"
+    timeFrameAsString = str(timeFrame).upper()
+    combinedTimeFrame = str("FX_") + timeFrameAsString
+
     try:
-        data = fetch_exchange_data()
-        return data
+        df = fetch_exchange_data(combinedTimeFrame = combinedTimeFrame, fromCurrency = fromCurrencySymbol, toCurrency = toCurrencySymbol)
+        data = df.to_dict("records")
+        return {"combinedTimeFrame":combinedTimeFrame,"fromCurrencySymbol": fromCurrencySymbol,"toCurrencySymbol": toCurrencySymbol, "data": data }
     except Exception as err:
         print('OOPS', err)
-        return {"message":"FX Data Error. Please try again."}, 404
-        
+        return {"message":"Market Data Error. Please try again."}, 404
