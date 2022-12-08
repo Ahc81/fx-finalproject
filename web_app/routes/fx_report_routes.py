@@ -25,14 +25,14 @@ def fx_report_dashboard():
         # for data sent via GET request, url params are in request.args
         request_data = dict(request.args)
         print("URL PARAMS:", request_data)
-
-    fromCurrencySymbol = request_data.get("From Currency") or "USD"
-    toCurrencySymbol = request_data.get("To Currency") or "EUR"
-    timeFrame = request_data.get("Monthly, Weekly, Daily, or Intraday") or "INTRADAY"
+    
+    fromCurrencySymbol = request_data.get("from_currency") or "USD"
+    toCurrencySymbol = request_data.get("to_currency") or "EUR"
+    timeFrame = request_data.get("report_frequency") or "INTRADAY"
     timeFrameAsString = str(timeFrame).upper()
     combinedTimeFrame = str("FX_") + timeFrameAsString
     if timeFrameAsString == "DAILY":
-                    xAxis = "Days"
+        xAxis = "Days"
     elif timeFrameAsString == "INTRADAY":
         xAxis = "Times"
     elif timeFrameAsString == "WEEKLY":
@@ -46,24 +46,29 @@ def fx_report_dashboard():
         latestClose = latest["close"]
         firstClose = first["close"]
         firstDate = first["timestamp"]
-        dates =  df["timestamp"]
-        rates = df["close"]
+        #dates =  df["timestamp"]
+        #rates = df["close"]
         chartName = timeFrameAsString + " Exchange Rate"
-        fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
+        #fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         
-
+        
         flash("Fetched Latest Unemployment Data!", "success")
         return render_template("fx_dashboard.html",
+            #df = df,
+            #data = df.to_records("dict"),
+            #dates =  df["timestamp"].tolist(),
+            #rates = df["close"].tolist(),"""
             fromCurrencySymbol = fromCurrencySymbol,
             toCurrencySymbol = toCurrencySymbol,
             latestClose = latestClose,
-            firstClose = firstClose,
-            firstDate = firstDate,
-            chartName = timeFrameAsString + " Exchange Rate",
-            fig = fig
+            #firstClose = firstClose,
+            #firstDate = firstDate,
+            #chartName = timeFrameAsString + " Exchange Rate",
+            #fig = fig"""
         )
     except Exception as err:
         print('OOPS', err)
+        breakpoint()
 
         flash("FX Data Error. Please try again!", "danger")
         return redirect("/")

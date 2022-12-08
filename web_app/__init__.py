@@ -12,7 +12,7 @@ from web_app.routes.fx_calculate_routes import fx_calculate_routes
 
 load_dotenv()
 
-SECRET_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="super secret") # set this to something else on production!!!
+SECRET_KEY = os.getenv("SECRET_KEY", default="super secret") # set this to something else on production!!!
 
 
 def create_app():
