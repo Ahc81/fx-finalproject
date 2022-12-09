@@ -74,7 +74,9 @@ if __name__ == "__main__":
         xAxis = "Months"
 #chart or no chart
     chart = input("Would you like a chart to be made? (Y/N) ")
+
     if chart == "Y" or "y" or "yes":
+
         fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         fig.show()
         print("Thank you for using the program.")
