@@ -1,0 +1,14 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "fx_dashboard" %}
+
+{% block content %}
+
+    <h2>FX Dashboard ({{ latestClose }})</h2>
+
+    <p class="lead">Latest Close: {{ latestClose }} (as of {{ latestDate }})</p>
+
+    <div id="chart-container" height="700px"></div>
+
+    
+
+{% endblock %}

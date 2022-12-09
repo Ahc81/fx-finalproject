@@ -10,7 +10,10 @@ def fetch_exchange_data(combinedTimeFrame,fromCurrency,toCurrency):
     return df #stores data as dataframe
 
 def calculate_new_currency(fromCurrencyAmount,latestClose):
-    newCurrencyAmount = fromCurrencyAmount * latestClose
+    fromCurrencyAsNumber = eval(fromCurrencyAmount)
+    latestCloseAsString = str(latestClose)
+    latestCloseAsNumber = eval(latestCloseAsString)
+    newCurrencyAmount = fromCurrencyAsNumber * latestCloseAsNumber
     return newCurrencyAmount
 
 #Begin main body
@@ -38,8 +41,7 @@ if __name__ == "__main__":
     
     fromCurrencyAmount = eval(input("Input how many "+ fromCurrency+" you would like converted: " ))
     latestClose = latest["close"]
-    latestCloseAsString = str(latestClose)
-    latestCloseAsNumber = eval(latestCloseAsString)
-    newCurrencyAmount = calculate_new_currency(fromCurrencyAmount, latestCloseAsNumber)
+    
+    newCurrencyAmount = calculate_new_currency(fromCurrencyAmount, latestClose)
     roundedNewCurrencyAmount = round(newCurrencyAmount,2)
     print("You can convert to " + str(roundedNewCurrencyAmount) + " " + toCurrency +".")

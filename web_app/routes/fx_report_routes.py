@@ -1,17 +1,22 @@
+
+
 from flask import Blueprint, request, render_template, redirect, flash
 
 from app.fx_report import fetch_exchange_data, appreciate_or_depreciate
+from plotly.express import line
+from pandas import read_csv
 
 fx_report_routes = Blueprint("fx_report_routes", __name__)
 
-@fx_report_routes.route("/fx/form")
-def stocks_form():
-    print("FX FORM...")
-    return render_template("fx_form.html")
+@fx_report_routes.route("/fx_report/form")
+def fx_report_form():
+    return render_template("fx_report_form.html")
 
-@fx_report_routes.route("/fx/dashboard", methods=["GET", "POST"])
-def FX_dashboard():
-    print("FX DASHBOARD...")
+@fx_report_routes.route("/fx_report/dashboard", methods=["GET", "POST"])
+def fx_report_dashboard():
+    print("FX Dashboard...")
+
+
 
     if request.method == "POST":
         # for data sent via POST request, form inputs are in request.form:
@@ -22,44 +27,80 @@ def FX_dashboard():
         request_data = dict(request.args)
         print("URL PARAMS:", request_data)
 
-    fromCurrencySymbol = request_data.get("symbol") or "USD"
-
+    
+    fromCurrencySymbol = request_data.get("from_currency") or "USD"
+    toCurrencySymbol = request_data.get("to_currency") or "EUR"
+    timeFrame = request_data.get("report_frequency") or "INTRADAY"
+    timeFrameAsString = str(timeFrame).upper()
+    combinedTimeFrame = str("FX_") + timeFrameAsString
+    if timeFrameAsString == "DAILY":
+        xAxis = "Days"
+    elif timeFrameAsString == "INTRADAY":
+        xAxis = "Times"
+    elif timeFrameAsString == "WEEKLY":
+        xAxis = "Weeks"
+    elif timeFrameAsString == "MONTHLY":
+        xAxis = "Months"
     try:
-        df = fetch_exchange_data(symbol=fromCurrencySymbol,)
-        latest_close = (df.iloc[0]["close"])
-        latest_date = df.iloc[0]["timestamp"]
-        data = df.to_dict("records")
-
-        #flash("Fetched Real-time Market Data!", "success")
+        df = fetch_exchange_data(combinedTimeFrame = combinedTimeFrame, fromCurrency = fromCurrencySymbol, toCurrency = toCurrencySymbol)
+        latest = df.iloc[0]
+        first = df.iloc[-1]
+        latestClose = latest["close"]
+        firstClose = first["close"]
+        firstDate = first["timestamp"]
+        #dates =  df["timestamp"]
+        #rates = df["close"]
+        chartName = timeFrameAsString + " Exchange Rate"
+        #fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
+        
+        
+        flash("Fetched Latest Unemployment Data!", "success")
         return render_template("fx_dashboard.html",
-            symbol=fromCurrencySymbol,
-            latest_close=latest_close,
-            latest_date=latest_date,
-            data=data
+            #df = df,
+            #data = df.to_records("dict"),
+            #dates =  df["timestamp"].tolist(),
+            #rates = df["close"].tolist(),"""
+            fromCurrencySymbol = fromCurrencySymbol,
+            toCurrencySymbol = toCurrencySymbol,
+            latestClose = latestClose,
+            #firstClose = firstClose,
+            #firstDate = firstDate,
+            #chartName = timeFrameAsString + " Exchange Rate",
+            #fig = fig"""
         )
     except Exception as err:
         print('OOPS', err)
+        breakpoint()
 
-        #flash("Market Data Error. Please check your symbol and try again!", "danger")
-        return redirect("/fx/form")
+        flash("FX Data Error. Please try again!", "danger")
+        return redirect("/")
+
 
 #
 # API ROUTES
 #
 
-@fx_report_routes.route("/api/stocks.json")
-def stocks_api():
-    print("STOCKS DATA (API)...")
+
+@fx_report_routes.route("/api/fx.json")
+def fx_api():
+    print("FX DATA (API)...")
+
 
     # for data supplied via GET request, url params are in request.args:
     url_params = dict(request.args)
     print("URL PARAMS:", url_params)
-    symbol = url_params.get("symbol") or "NFLX"
+
+    fromCurrencySymbol = url_params.get("fromCurrencySymbol") or "USD"
+    toCurrencySymbol = url_params.get("toCurrencySymbol") or "EUR"
+    timeFrame = url_params.get("timeFrame") or "INTRADAY"
+    timeFrameAsString = str(timeFrame).upper()
+    combinedTimeFrame = str("FX_") + timeFrameAsString
 
     try:
-        df = fetch_exchange_data(symbol=symbol)
+        df = fetch_exchange_data(combinedTimeFrame = combinedTimeFrame, fromCurrency = fromCurrencySymbol, toCurrency = toCurrencySymbol)
         data = df.to_dict("records")
-        return {"symbol": symbol, "data": data }
+        return {"combinedTimeFrame":combinedTimeFrame,"fromCurrencySymbol": fromCurrencySymbol,"toCurrencySymbol": toCurrencySymbol, "data": data }
+
     except Exception as err:
         print('OOPS', err)
         return {"message":"Market Data Error. Please try again."}, 404
