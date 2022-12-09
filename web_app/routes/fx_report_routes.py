@@ -17,6 +17,7 @@ def fx_report_dashboard():
     print("FX Dashboard...")
 
 
+
     if request.method == "POST":
         # for data sent via POST request, form inputs are in request.form:
         request_data = dict(request.form)
@@ -25,6 +26,7 @@ def fx_report_dashboard():
         # for data sent via GET request, url params are in request.args
         request_data = dict(request.args)
         print("URL PARAMS:", request_data)
+
     
     fromCurrencySymbol = request_data.get("from_currency") or "USD"
     toCurrencySymbol = request_data.get("to_currency") or "EUR"
@@ -75,17 +77,21 @@ def fx_report_dashboard():
         flash("FX Data Error. Please try again!", "danger")
         return redirect("/")
 
+
 #
 # API ROUTES
 #
+
 
 @fx_report_routes.route("/api/fx.json")
 def fx_api():
     print("FX DATA (API)...")
 
+
     # for data supplied via GET request, url params are in request.args:
     url_params = dict(request.args)
     print("URL PARAMS:", url_params)
+
     fromCurrencySymbol = url_params.get("fromCurrencySymbol") or "USD"
     toCurrencySymbol = url_params.get("toCurrencySymbol") or "EUR"
     timeFrame = url_params.get("timeFrame") or "INTRADAY"
@@ -96,6 +102,7 @@ def fx_api():
         df = fetch_exchange_data(combinedTimeFrame = combinedTimeFrame, fromCurrency = fromCurrencySymbol, toCurrency = toCurrencySymbol)
         data = df.to_dict("records")
         return {"combinedTimeFrame":combinedTimeFrame,"fromCurrencySymbol": fromCurrencySymbol,"toCurrencySymbol": toCurrencySymbol, "data": data }
+
     except Exception as err:
         print('OOPS', err)
         return {"message":"Market Data Error. Please try again."}, 404

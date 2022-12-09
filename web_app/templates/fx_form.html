@@ -1,0 +1,23 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "stocks_form" %}
+
+{% block content %}
+
+    <h2>FX Form</h2>
+
+    <p>Request some FX data...</p>
+
+    <form action="/FX/dashboard" method="POST">
+
+        <label>FX From Currency Symbol:</label>
+        <input type="text" name="symbol" placeholder="USD" value="USD">
+        <br>
+
+        <label>FX To Currency Symbol:</label>
+        <input type="text" name="symbol" placeholder="USD" value="USD">
+        <br>
+
+        <button class="btn btn-success">Submit</button>
+    </form>
+
+{% endblock %}
