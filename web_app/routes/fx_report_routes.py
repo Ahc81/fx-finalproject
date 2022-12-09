@@ -44,6 +44,7 @@ def fx_report_dashboard():
         latest = df.iloc[0]
         first = df.iloc[-1]
         latestClose = latest["close"]
+        latestDate = latest["timestamp"]
         firstClose = first["close"]
         firstDate = first["timestamp"]
         #dates =  df["timestamp"]
@@ -55,12 +56,13 @@ def fx_report_dashboard():
         flash("Fetched Latest Unemployment Data!", "success")
         return render_template("fx_dashboard.html",
             #df = df,
-            #data = df.to_records("dict"),
-            #dates =  df["timestamp"].tolist(),
-            #rates = df["close"].tolist(),"""
+            data = df.to_records("dict"),
+            dates =  df["timestamp"].tolist(),
+            rates = df["close"].tolist(),
             fromCurrencySymbol = fromCurrencySymbol,
             toCurrencySymbol = toCurrencySymbol,
             latestClose = latestClose,
+            latestDate = latestDate,
             #firstClose = firstClose,
             #firstDate = firstDate,
             #chartName = timeFrameAsString + " Exchange Rate",
