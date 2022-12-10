@@ -56,7 +56,7 @@ def fx_report_dashboard():
         #fig = line(x=dates, y=rates, title=chartName, labels= {"x": xAxis, "y": "Exchange Rate"})
         
         
-        flash("Fetched Latest Unemployment Data!", "success")
+        flash("Fetched Latest Exchange Data!", "success")
         return render_template("fx_dashboard.html",
             #df = df,
 

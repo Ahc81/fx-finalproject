@@ -37,7 +37,7 @@ def fx_calculate_dashboard():
         print(toCurrencySymbol)
         newCurrencyAmount=calculate_new_currency(fromCurrencyAmount=fromCurrencyAmount, latestClose=latestClose)
 
-        flash("Fetched Real-time Market Data!", "success")
+        flash("Fetched Real-time Exchange Data!", "success")
         return render_template("fx_form_output.html",
             fromCurrency=fromCurrencySymbol,
             toCurrency=toCurrencySymbol,
