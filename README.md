@@ -34,9 +34,18 @@ Then create a .gitignore file of the python flavor to help hide the .env file
 
 ##Run the code
 
-
+Follow all of the prompts for the fx_report program
 ```sh
 python -m app.fx_report
 ```
 
+Follow the prompts and calculate your currency converted
+```sh
+python -m app.fx_calculate
+```
+
+##Run the web_app in local development
+```sh
+FLASK_APP=web_app flask run
+```
 
