@@ -14,5 +14,5 @@ def test_data_fetching():
     assert len(result) >= 100
 
 def test_calculation():
-    assert calculate_new_currency(100,"0.9") == 90
+    assert calculate_new_currency("100","0.9") == 90
     
