@@ -48,4 +48,7 @@ python -m app.fx_calculate
 ```sh
 FLASK_APP=web_app flask run
 ```
-
+Then go to your local development host
+```sh
+http://localhost:5000/
+```

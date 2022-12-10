@@ -1,4 +1,4 @@
-from app.fx_report import fetch_exchange_data
+from app.fx_report import fetch_exchange_data, appreciate_or_depreciate
 from pandas import DataFrame
 
 def test_data_fetching():
@@ -12,3 +12,6 @@ def test_data_fetching():
     assert "close" in result.columns
 
     assert len(result) >= 100
+
+
+    
