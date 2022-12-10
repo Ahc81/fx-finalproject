@@ -2,7 +2,7 @@
 
 from flask import Blueprint, request, render_template, redirect, flash
 
-from app.fx_report import fetch_exchange_data, appreciate_or_depreciate
+from app.fx_report import fetch_exchange_data
 from plotly.express import line
 from pandas import read_csv
 
@@ -108,4 +108,4 @@ def fx_api():
 
     except Exception as err:
         print('OOPS', err)
-        return {"message":"Market Data Error. Please try again."}, 404
+        return {"message":"FX Data Error. Please try again."}, 404
